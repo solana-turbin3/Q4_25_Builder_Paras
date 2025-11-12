@@ -1,0 +1,15 @@
+# Wallet and Key Files - NEVER COMMIT THESE
+*pair.json
+**/id.json
+**/id2.json
+keys/
+*let.json
+
+
+# Environment variables
+~/.config/solana/
+
+# Dependencies
+node_modules/
+target/
+.anchor/

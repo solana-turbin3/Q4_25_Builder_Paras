@@ -1,0 +1,10 @@
+[2025-10-22--21-55-38 INFO actix_server::builder] starting 5 workers
+[2025-10-22--21-55-38 INFO actix_server::server] Tokio runtime found; starting in existing Tokio runtime
+[2025-10-22--21-55-38 INFO actix_server::server] starting service: "actix-web-service-127.0.0.1:18488", workers: 5, listening on: 127.0.0.1:18488
+[2025-10-22--21-55-39 INFO parity_ws] Listening for new connections on 127.0.0.1:8900.
+[2025-10-22--21-55-39 INFO txtx::svm::deploy_program] Program Created - Program 9FVkz5L9LZix4zXYmqJLzKBwRpm9aJ539J26UsZSrLWN has been deployed
+[2025-10-22--21-55-53 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:52844.
+[2025-10-22--21-55-54 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:52856.
+[2025-10-22--21-59-32 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:59582.
+[2025-10-22--21-59-34 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:59586.
+[2025-10-22--21-59-57 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:52366.
