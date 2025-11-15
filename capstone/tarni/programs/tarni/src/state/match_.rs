@@ -18,6 +18,12 @@ pub struct Match {
 
 
 impl Match {
+    pub fn can_checkin(&self, current_time: i64) -> bool {
+        matches!(self.state, MatchState::Pending)
+            && current_time >= self.starts_at - 600 // Check-in opens 10 minutes before start
+            && current_time <= self.cin_deadline
+    }
+
     pub fn all_checked_in(&self) -> bool {
         self.checked_in as u8 == self.participant_limit
     }

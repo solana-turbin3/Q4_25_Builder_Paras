@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*;
 
+use crate::instructions::tournament;
+
 #[account]
 #[derive(InitSpace)]
 pub struct Tournament {
@@ -25,6 +27,10 @@ pub struct Tournament {
 }
 
 impl Tournament {
+
+        pub fn can_checkin(&self) -> bool {
+        matches!(self.state, TournamentState::InProgress)
+        }
         // tournament start state is doubtful
         pub fn can_register(&self) -> bool {
         matches!(self.state, TournamentState::Open) && self.current_participants < self.max_participants
@@ -37,7 +43,12 @@ impl Tournament {
         // pub fn can_checkin(&self, current_time: i64) -> bool {
         
         pub fn is_mut(&self) -> bool {
-        matches!(self.state, TournamentState::Open)
+            if matches!(self.state, TournamentState::Open) && matches!(self.current_participants, 0) {
+                true
+            } else {
+                false
+            }
+        
         }
 
         pub fn can_launch(&self) -> bool {

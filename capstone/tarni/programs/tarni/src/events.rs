@@ -10,7 +10,7 @@ pub struct TournamentCreated {
 }
 
 #[event]
-pub struct PlayerRegistered {
+pub struct ParticipantRegistered {
     pub tournament: Pubkey,
     pub player: Pubkey,
     pub slot: u8, // Participant slot number

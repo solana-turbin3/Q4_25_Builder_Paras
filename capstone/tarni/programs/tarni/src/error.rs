@@ -2,12 +2,19 @@ use anchor_lang::prelude::*;
 
 #[error_code]
 pub enum TarniError {
+    #[msg("Invalid participant.")]
+    #[msg("Match does not exist or is invalid.")]
+    InvalidMatch,
+    #[msg("Match is not in a valid state for this action.")]
+    InvalidMatchState,
     #[msg("Tournament registration is closed.")]
     RegistrationClosed,
     #[msg("Tournament is already full.")]
     TournamentFull,
     #[msg("entry fee less than minimum required.")]
     EntryFeeTooLow,
+    #[msg("Invalid escrow account.")]
+    InvalidEscrowAccount,
     #[msg("Entry fee does not match required amount.")]
     IncorrectEntryFee,
     #[msg("Not enough participants registered.")]
