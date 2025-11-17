@@ -39,6 +39,7 @@ pub mod tarni {
             prize_split,
             rules,
             starts_at,
+            ctx.bumps.escrow,
         )
     }
 
@@ -46,6 +47,83 @@ pub mod tarni {
         ctx: Context<LockRegistration>
     ) -> anchor_lang::Result<()> {
         ctx.accounts.process()
+    }
+
+    pub fn update_tournament(
+        ctx: Context<UpdateTournament>,
+        entry_fee: Option<u64>,
+        max_participants: Option<u8>,
+        prize_splits: Option<PrizeSplit>,
+        rules: Option<String>,
+        starts_at: Option<i64>,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.update(entry_fee, max_participants, prize_splits, rules, starts_at)
+    }
+
+    pub fn cancel_tournament(
+        ctx: Context<CancelTournament>,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.cancel()
+    }
+
+    pub fn register_participant(
+        ctx: Context<RegisterParticipant>,
+        game_account: Pubkey,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.register(game_account, ctx.bumps.participant)
+    }
+
+    pub fn checkin(
+        ctx: Context<Checkin>,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.checkin()
+    }
+
+    pub fn claim_prize(
+        ctx: Context<ClaimPrize>,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.claim_prize(ctx.bumps.escrow)
+    }
+
+    pub fn claim_refund(
+        ctx: Context<ClaimRefund>,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.claim_refund(ctx.bumps.escrow)
+    }
+
+    pub fn launch_tournament(
+        ctx: Context<LaunchTournament>,
+        match_id_hash: [u8; 32],
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.launch_tournament(match_id_hash, ctx.bumps.match_account)
+    }
+
+    pub fn start_match(
+        ctx: Context<StartMatch>,
+        match_id: u64,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.start_match(match_id)
+    }
+
+    pub fn submit_results(
+        ctx: Context<SubmitResults>,
+        ipfs_cid: String,
+        signature: [u8; 64],
+        placements: Vec<state::PlayerResult>,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.submit_results(ipfs_cid, signature, placements, ctx.bumps.result)
+    }
+
+    pub fn auto_disqualify(
+        ctx: Context<AutoDisqualify>,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.auto_disqualify()
+    }
+
+    pub fn distribute_prizes(
+        ctx: Context<Prizes>,
+    ) -> anchor_lang::Result<()> {
+        ctx.accounts.calculate_prizes()
     }
 }
 

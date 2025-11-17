@@ -1,12 +1,11 @@
-use::anchor_lang::prelude::*;
-use::anchor_lang::system_program::{
-    Transfer, transfer };
+use anchor_lang::prelude::*;
+use anchor_lang::{system_program, system_program::{Transfer, transfer}};
 
 use crate::{
     constants::*,
     error::TarniError,
-    state::{Participant, Tournament},
-    events::ParticipantRegistered,
+    state::{Participant, Tournament, tournament::TournamentState},
+    events::PlayerRegistered,
     utils::time::now_ts,
 };
 
@@ -15,8 +14,9 @@ use crate::{
 pub struct RegisterParticipant<'info> {
     #[account(
         mut,
-        has_one = escrow @ TarniError::InvalidEscrowAccount,
-        constraint = tournament.can_register() @ TarniError::InvalidTournamentState
+        constraint = tournament.escrow == escrow.key() @ TarniError::InvalidEscrowAccount,
+        constraint = tournament.state == TournamentState::Open @ TarniError::InvalidTournamentState,
+        constraint = tournament.current_participants < tournament.max_participants @ TarniError::TournamentFull
     )]
     pub tournament: Account<'info, Tournament>,
 
@@ -25,7 +25,7 @@ pub struct RegisterParticipant<'info> {
         init,
         payer = player,
         space = 8 + Participant::INIT_SPACE,
-        seeds = [PARTICIPANT_SEED, tournament.key().as_ref(), player.key.as_ref()],
+        seeds = [PARTICIPANT_SEED, tournament.key().as_ref(), player.key().as_ref()],
         bump,
     )]
     pub participant: Account<'info, Participant>,
@@ -33,8 +33,12 @@ pub struct RegisterParticipant<'info> {
     #[account(mut)]
     pub player: Signer<'info>,
 
+    /// CHECK: System PDA that holds tournament funds
     #[account(
-        mut
+        mut,
+        seeds = [ESCROW_SEED, tournament.key().as_ref()],
+        bump,
+        constraint = escrow.owner == &system_program::ID @ TarniError::InvalidEscrowAccount,
     )]
     pub escrow: AccountInfo<'info>,
 
@@ -46,6 +50,7 @@ impl<'info> RegisterParticipant<'info> {
     pub fn register(
         &mut self,
         game_account: Pubkey,
+        bump: u8,
     ) -> Result<()> {
         let tournament = &mut self.tournament;
 
@@ -79,6 +84,8 @@ impl<'info> RegisterParticipant<'info> {
             .checked_add(entry_fee)
             .ok_or(TarniError::MathError)?;
 
+        // Note: SOL balance in escrow is tracked automatically by system transfers
+
         self.participant.set_inner(
             Participant {
                 player: self.player.key(),
@@ -94,11 +101,11 @@ impl<'info> RegisterParticipant<'info> {
                 claimed: false,
                 refunded: false,
                 refund_amount: 0,
-                bump: self.participant.bump,
+                bump,
             }
         );
 
-        emit!(ParticipantRegistered {
+        emit!(PlayerRegistered {
             tournament: tournament.key(),
             player: self.player.key(),
             slot: tournament.current_participants,

@@ -1,1 +1,3 @@
-// Distribution instruction modules will go here
+pub mod prize;
+
+pub use prize::*;

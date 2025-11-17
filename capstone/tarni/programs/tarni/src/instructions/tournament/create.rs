@@ -20,7 +20,9 @@ pub struct CreateTournament<'info> {
     )]
     pub tournament: Account<'info, Tournament>,
     
+    /// CHECK: System PDA that will hold tournament funds
     #[account(
+        mut,
         seeds = [ESCROW_SEED, tournament.key().as_ref()],
         bump,
     )]
@@ -29,7 +31,7 @@ pub struct CreateTournament<'info> {
     #[account(mut)]
     pub organizer: Signer<'info>,
 
-    /// CHECK: Backend authority account
+    /// CHECK: This is the backend authority account that's validated by the program logic
     pub backend: UncheckedAccount<'info>,
 
     pub system_program: Program<'info, System>,
@@ -46,6 +48,7 @@ impl<'info> CreateTournament<'info> {
         prize_split: PrizeSplit,
         rules: String,
         starts_at: i64,
+        escrow_bump: u8,
     ) -> Result<()> {
 
     require!(
@@ -92,8 +95,10 @@ impl<'info> CreateTournament<'info> {
             started_at: 0, // Will be set when tournament actually starts
             escrow: self.escrow.key(),
             prize_pool: 0, // Will accumulate as participants register
+            escrow_bump: escrow_bump,
             bump: self.tournament.bump,
         });
+
         emit!(TournamentCreated {
             tournament: self.tournament.key(),
             organizer: self.organizer.key(),

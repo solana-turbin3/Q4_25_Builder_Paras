@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 use crate::{
     error::TarniError,
     events::TournamentCancelled,
-    state::{Tournament, TournamentState},
+    state::{Participant, Tournament, TournamentState},
     utils::time::now_ts,
 };
 
@@ -16,6 +16,11 @@ pub struct CancelTournament<'info> {
     )]
     pub tournament: Account<'info, Tournament>,
 
+    #[account(mut,
+        has_one = tournament @ TarniError::InvalidParticipant,
+    )]
+    pub participant: Account<'info, Participant>,
+
     pub organizer: Signer<'info>,
 }
 
@@ -23,7 +28,15 @@ impl<'info> CancelTournament<'info> {
     pub fn cancel(&mut self) -> Result<()>{
         let tournament = &mut self.tournament;
 
+        require!(
+            tournament.can_cancel(),
+            TarniError::InvalidTournamentState
+        );
+
         tournament.state = TournamentState::Cancelled;
+
+        self.participant.refund_amount = self.participant.entry_paid;
+        self.participant.refunded = false;
 
         emit!(TournamentCancelled {
             tournament: tournament.key(),

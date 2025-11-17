@@ -12,7 +12,7 @@ pub struct LockRegistration<'info> {
     #[account(
         mut,
         has_one = organizer @ TarniError::NotOrganizer,
-        constraint = tournament.is_mut() @ TarniError::InvalidTournamentState,
+        constraint = tournament.state == TournamentState::Open @ TarniError::InvalidTournamentState,
     )]
     pub tournament: Account<'info, Tournament>,
 

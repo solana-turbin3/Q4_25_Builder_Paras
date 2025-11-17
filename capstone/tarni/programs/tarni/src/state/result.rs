@@ -7,8 +7,7 @@ pub struct Result {
     pub match_: Pubkey,
     pub tournament: Pubkey,
     #[max_len(120)]
-    pub ipfs_cid: String, 
-
+    pub ipfs_cid: String,
     pub submitted_at: i64,
     pub signature: [u8; 64],
     #[max_len(64)]

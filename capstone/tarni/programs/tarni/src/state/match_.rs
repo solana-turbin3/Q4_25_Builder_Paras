@@ -4,6 +4,7 @@ use anchor_lang::prelude::*;
 #[derive(InitSpace)]
 pub struct Match {
     pub tournament: Pubkey,
+    pub match_id_hash: [u8; 32],
     pub match_id: u64,
     #[max_len(64)]
     pub participants: Vec<Pubkey>,
@@ -31,10 +32,14 @@ impl Match {
     pub fn checkin_limit_reached(&self, current_time: i64) -> bool {
         current_time >= self.cin_deadline
     }
+
+    pub fn can_start(&self) -> bool {
+        matches!(self.state,MatchState::CheckedIn)
+    }
 }
 
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, InitSpace)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, InitSpace, PartialEq)]
 pub enum MatchState {
     Pending,
     CheckedIn,

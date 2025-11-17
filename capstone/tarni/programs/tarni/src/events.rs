@@ -10,7 +10,7 @@ pub struct TournamentCreated {
 }
 
 #[event]
-pub struct ParticipantRegistered {
+pub struct PlayerRegistered {
     pub tournament: Pubkey,
     pub player: Pubkey,
     pub slot: u8, // Participant slot number
@@ -25,7 +25,7 @@ pub struct RegistrationClosed {
 #[event]
 pub struct MatchLaunched {
     pub tournament: Pubkey,
-    pub match_id: u64,
+    pub match_id_hash: [u8; 32],
     pub participants: Vec<Pubkey>,
     pub starts_at: i64,
 }
@@ -40,6 +40,7 @@ pub struct MatchStarted {
 
 #[event]
 pub struct PlayerCheckedIn {
+    pub match_: Pubkey,
     pub tournament: Pubkey,
     pub player: Pubkey,
     pub checkin_timestamp: i64,
@@ -62,6 +63,13 @@ pub struct ResultsSubmitted {
 
 #[event]
 pub struct PrizeClaimed {
+    pub tournament: Pubkey,
+    pub player: Pubkey,
+    pub amount: u64,
+}
+
+#[event]
+pub struct RefundClaimed {
     pub tournament: Pubkey,
     pub player: Pubkey,
     pub amount: u64,

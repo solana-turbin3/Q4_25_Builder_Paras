@@ -8,6 +8,6 @@ pub fn assert_registration_open(tournament: &Tournament) -> Result<()> {
 }
 
 pub fn assert_participant_not_disqualified(participant: &Participant) -> Result<()> {
-    require!(!participant.disqualified, TarniError::AlreadyCheckedInOrDQ);
+    require!(!participant.disqualified, TarniError::AlreadyDQ);
     Ok(())
 }

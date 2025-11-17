@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-use crate::instructions::tournament;
+
 
 #[account]
 #[derive(InitSpace)]
@@ -23,10 +23,14 @@ pub struct Tournament {
     pub started_at: i64,
     pub escrow: Pubkey,
     pub prize_pool: u64,
+    pub escrow_bump: u8,
     pub bump: u8,
 }
 
 impl Tournament {
+        pub fn is_cancel(&self) -> bool {
+        matches!(self.state, TournamentState::Cancelled)
+        }
 
         pub fn can_checkin(&self) -> bool {
         matches!(self.state, TournamentState::InProgress)
@@ -51,6 +55,8 @@ impl Tournament {
         
         }
 
+
+
         pub fn can_launch(&self) -> bool {
         matches!(self.state, TournamentState::Locked)
         }
@@ -65,7 +71,7 @@ impl Tournament {
     SingleMatch,
    }
    
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, InitSpace)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, InitSpace, PartialEq)]
    pub enum TournamentState {
     Open,
     Locked,

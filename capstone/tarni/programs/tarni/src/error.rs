@@ -3,6 +3,7 @@ use anchor_lang::prelude::*;
 #[error_code]
 pub enum TarniError {
     #[msg("Invalid participant.")]
+    InvalidParticipant,
     #[msg("Match does not exist or is invalid.")]
     InvalidMatch,
     #[msg("Match is not in a valid state for this action.")]
@@ -21,8 +22,10 @@ pub enum TarniError {
     NotEnoughParticipants,
     #[msg("Cannot check in outside check-in window.")]
     CheckinNotOpen,
-    #[msg("Player has already checked in or been disqualified.")]
-    AlreadyCheckedInOrDQ,
+    #[msg("Player has already checked in.")]
+    AlreadyCheckedIn,
+    #[msg("Player has already been disqualified.")]
+    AlreadyDQ,
     #[msg("Tournament state does not allow this action.")]
     InvalidTournamentState,
     #[msg("Prize split percentages do not sum to 100.")]
@@ -43,4 +46,12 @@ pub enum TarniError {
     InvalidArgument,
     #[msg("Math operation error.")]
     MathError,
+    #[msg("Invalid result account.")]
+    InvalidResult,
+    #[msg("Prize already distributed.")]
+    AlreadyDistributed,
+    #[msg("Player not found in results.")]
+    PlayerNotInResults,
+    #[msg("Invalid placement.")]
+    InvalidPlacement,
 }

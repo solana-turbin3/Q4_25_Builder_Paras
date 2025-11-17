@@ -57,6 +57,7 @@ impl<'info> Checkin<'info> {
         }
 
         emit!(PlayerCheckedIn {
+            match_: match_account.key(),
             tournament: self.tournament.key(),
             player: self.player.key(),
             checkin_timestamp: now,

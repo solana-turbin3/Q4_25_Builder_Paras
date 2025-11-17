@@ -1,0 +1,99 @@
+
+action "tarni_match_launched" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "MatchLaunched"
+    }
+}
+
+action "tarni_match_started" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "MatchStarted"
+    }
+}
+
+action "tarni_player_checked_in" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "PlayerCheckedIn"
+    }
+}
+
+action "tarni_player_disqualified" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "PlayerDisqualified"
+    }
+}
+
+action "tarni_player_registered" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "PlayerRegistered"
+    }
+}
+
+action "tarni_prize_claimed" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "PrizeClaimed"
+    }
+}
+
+action "tarni_refund_claimed" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "RefundClaimed"
+    }
+}
+
+action "tarni_registration_closed" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "RegistrationClosed"
+    }
+}
+
+action "tarni_results_submitted" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "ResultsSubmitted"
+    }
+}
+
+action "tarni_tournament_cancelled" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "TournamentCancelled"
+    }
+}
+
+action "tarni_tournament_created" "svm::deploy_subgraph" {
+    program_id = action.deploy_tarni.program_id
+    program_idl = action.deploy_tarni.program_idl
+    block_height = 0 // action.deploy_tarni.block_height
+    event {
+        name = "TournamentCreated"
+    }
+}
