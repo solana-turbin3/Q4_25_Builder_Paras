@@ -1,1 +1,0 @@
-// TODO: implement Redis adapter

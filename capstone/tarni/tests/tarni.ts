@@ -812,13 +812,11 @@ describe("Tarni", () => {
     });
 
     it("Should not allow claiming prize twice", async () => {
-      // This would require full tournament flow, skip for brevity
-      // but implementation should check participant.claimed flag
+      
     });
 
     it("Should not allow non-winners to claim prizes", async () => {
-      // This would require submitting results with specific placements
-      // Check that only players in placements[] can claim
+      
     });
   });
 

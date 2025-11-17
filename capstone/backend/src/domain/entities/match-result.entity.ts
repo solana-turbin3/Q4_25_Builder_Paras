@@ -1,1 +1,0 @@
-// TODO: implement MatchResult entity
