@@ -8,12 +8,15 @@ skip-lint = false
 [programs.localnet]
 tarni = "6ZDRzAxyRYS5GsZKEm4BWjEty3NaBuvRg8GvzDKck27c"
 
+[programs.devnet]
+tarni = "6ZDRzAxyRYS5GsZKEm4BWjEty3NaBuvRg8GvzDKck27c"
+
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
-wallet = "~/.config/solana/id.json"
+cluster = "devnet"
+wallet = "/home/psh/paras/keys/turbin3_wallet.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\""

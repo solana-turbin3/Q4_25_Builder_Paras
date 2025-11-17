@@ -4,8 +4,7 @@ use crate::{
     constants::*,
     error::TarniError,
     events::ResultsSubmitted,
-    state::{Match, MatchState, Participant, PrizeSplit, Result as MatchResult, Tournament, TournamentState, PlayerResult},
-    utils::prize::calculate_prizes,
+    state::{Match, MatchState, Result as MatchResult, Tournament, TournamentState, PlayerResult},
     utils::time::now_ts,
 };
 
