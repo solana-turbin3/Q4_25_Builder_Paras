@@ -2,9 +2,9 @@
 
 # 🏆 TARNI
 
-### Decentralized Tournament Platform on Solana
+### Tournament Platform on Solana
 
-*Smart Contract-Based Gaming Tournaments with Automated Prize Distribution*
+*Gaming Tournaments with Automated Results*
 
 [![Solana](https://img.shields.io/badge/Solana-Devnet-purple)](https://explorer.solana.com/address/6ZDRzAxyRYS5GsZKEm4BWjEty3NaBuvRg8GvzDKck27c?cluster=devnet)
 [![Anchor](https://img.shields.io/badge/Anchor-v0.32.1-blue)](https://www.anchor-lang.com/)
@@ -13,117 +13,25 @@
 
 **Program ID:** `6ZDRzAxyRYS5GsZKEm4BWjEty3NaBuvRg8GvzDKck27c`
 
-[Architecture](#-system-architecture) • [How It Works](#-how-it-works) • [Quick Start](#-quick-start) • [API Reference](#-program-instructions)
-
 </div>
 
 ---
 
 ## 🎯 Overview
 
-Tarni is a decentralized tournament management system built on Solana using the Anchor framework. It enables trustless, transparent gaming tournaments with automated prize distribution through smart contracts.
+Tarni is a tournament management system built on Solana using the Anchor framework. It enables trustless, transparent gaming tournaments with automated results and prize distribution.
 
 **Core Features:**
 
-- Trustless tournament creation and management
+- Tournament creation and management
 - Automated escrow system for entry fees and prizes  
-- Real-time match state management with check-in system
-- Flexible prize distribution (Winner-takes-all, Top 3, Top 5)
-- IPFS integration for verifiable match results
+- Real-time state management 
+- Automated Results
+- verifiable match results
 - Complete on-chain audit trail
-
-**Live on Devnet:** [View on Explorer](https://explorer.solana.com/address/6ZDRzAxyRYS5GsZKEm4BWjEty3NaBuvRg8GvzDKck27c?cluster=devnet)
-
 ---
 
 ## 🏗️ **System Architecture**
-
-### **High-Level Flow**
-
-```mermaid
-graph TB
-    A[Tournament Creation] --> B[Registration Phase]
-    B --> C[Lock Registration]
-    C --> D[Launch Tournament]
-    D --> E[Match Execution]
-    E --> F[Submit Results]
-    F --> G[Distribute Prizes]
-    G --> H[Players Claim Prizes]
-    
-    B -.->|Cancel| I[Refund Players]
-    C -.->|Cancel| I
-    
-    style A fill:#9945FF
-    style H fill:#14F195
-    style I fill:#FF6B6B
-```
-
-### **Account Architecture**
-
-```mermaid
-graph LR
-    A[Tournament PDA] --> B[Escrow PDA]
-    A --> C[Match PDA]
-    C --> D[Result PDA]
-    A --> E[Participant PDA 1]
-    A --> F[Participant PDA 2]
-    A --> G[Participant PDA N]
-    
-    E -.->|Entry Fee| B
-    F -.->|Entry Fee| B
-    G -.->|Entry Fee| B
-    
-    B -.->|Prize Claim| E
-    B -.->|Prize Claim| F
-    B -.->|Prize Claim| G
-    
-    style A fill:#9945FF
-    style B fill:#14F195
-    style C fill:#FF6B6B
-```
-
-### PDA Derivation
-
-```rust
-// Tournament: ["tournament", tournament_id.to_le_bytes()]
-// Escrow: ["escrow", tournament.key()]  
-// Participant: ["participant", tournament.key(), player.key()]
-// Match: ["match", tournament.key()]
-// Result: ["result", match.key()]
-```
-
-***
-
-## 🔄 **How It Works**
-
-### 1. Tournament Lifecycle
-
-```mermaid
-stateDiagram-v2
-    [*] --> Open: create_tournament()
-    Open --> Locked: lock_registration()
-    Locked --> InProgress: launch_tournament()
-    InProgress --> Complete: submit_results()
-    Complete --> Distributed: distribute_prizes()
-    
-    Open --> Cancelled: cancel_tournament()
-    Locked --> Cancelled: cancel_tournament()
-    
-    Distributed --> [*]
-    Cancelled --> [*]
-```
-
-**State Transitions:**
-
-- **Open**: Organizer can update tournament parameters, players can register
-- **Locked**: No new registrations, awaiting tournament launch
-- **InProgress**: Match active, check-ins completed
-- **Complete**: Results submitted, awaiting prize distribution
-- **Distributed**: Prizes calculated and distributed, players claim winnings
-- **Cancelled**: Tournament cancelled, refunds available for all participants
-
-### **2. Match Flow**
-
 ```mermaid
 sequenceDiagram
     participant O as Organizer
@@ -147,7 +55,7 @@ sequenceDiagram
     E->>P: Transfer winnings
 ```
 
-### **3. Prize Distribution Models**
+### **Prize Distribution Models**
 
 ```mermaid
 graph TD
